@@ -1,0 +1,10 @@
+﻿CREATE TABLE [dbo].[Class]
+(
+	[ClassID] INT NOT NULL PRIMARY KEY,
+	[Day] NVARCHAR(MAX) NOT NULL,
+	[startTime] DATETIME NOT NULL,
+	[endTime] DATETIME NOT NULL,
+	[Name] NVARCHAR(MAX) NOT NULL,
+	[Description] NVARCHAR(MAX) NOT NULL,
+	[Semester] INT NOT NULL
+)

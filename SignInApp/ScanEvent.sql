@@ -1,0 +1,4 @@
+﻿CREATE TABLE [dbo].[ScanEvent]
+(
+	[TIME] DATETIME NOT NULL PRIMARY KEY
+)
