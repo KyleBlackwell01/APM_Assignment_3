@@ -252,6 +252,7 @@
     <Content Include="Models\G1N2_Model.edmx.diagram">
       <DependentUpon>G1N2_Model.edmx</DependentUpon>
     </Content>
+    <None Include="Properties\PublishProfiles\G1N2WebAPI - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
