@@ -14,21 +14,10 @@ namespace G1N2WebAPI.Models
     
     public partial class Class
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Class()
-        {
-            this.ClassOccurances = new HashSet<ClassOccurance>();
-        }
-    
         public int ClassID { get; set; }
         public string Day { get; set; }
         public System.TimeSpan startTime { get; set; }
         public System.TimeSpan endTime { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
-        public int Semester { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ClassOccurance> ClassOccurances { get; set; }
     }
 }

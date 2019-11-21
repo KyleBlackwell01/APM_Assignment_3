@@ -13,44 +13,44 @@ using G1N2WebAPI.Models;
 
 namespace G1N2WebAPI.Controllers
 {
-    public class StudentsController : ApiController
+    public class AttendancesController : ApiController
     {
-        private Database_Sem2Entities db = new Database_Sem2Entities();
+        private G1N2Entities db = new G1N2Entities();
 
-        // GET: api/Students
-        public IQueryable<Student> GetStudents()
+        // GET: api/Attendances
+        public IQueryable<Attendance> GetAttendances()
         {
-            return db.Students;
+            return db.Attendances;
         }
 
-        // GET: api/Students/5
-        [ResponseType(typeof(Student))]
-        public async Task<IHttpActionResult> GetStudent(int id)
+        // GET: api/Attendances/5
+        [ResponseType(typeof(Attendance))]
+        public async Task<IHttpActionResult> GetAttendance(int id)
         {
-            Student student = await db.Students.FindAsync(id);
-            if (student == null)
+            Attendance attendance = await db.Attendances.FindAsync(id);
+            if (attendance == null)
             {
                 return NotFound();
             }
 
-            return Ok(student);
+            return Ok(attendance);
         }
 
-        // PUT: api/Students/5
+        // PUT: api/Attendances/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutStudent(int id, Student student)
+        public async Task<IHttpActionResult> PutAttendance(int id, Attendance attendance)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != student.Barcode)
+            if (id != attendance.Id)
             {
                 return BadRequest();
             }
 
-            db.Entry(student).State = EntityState.Modified;
+            db.Entry(attendance).State = EntityState.Modified;
 
             try
             {
@@ -58,7 +58,7 @@ namespace G1N2WebAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!StudentExists(id))
+                if (!AttendanceExists(id))
                 {
                     return NotFound();
                 }
@@ -71,16 +71,16 @@ namespace G1N2WebAPI.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Students
-        [ResponseType(typeof(Student))]
-        public async Task<IHttpActionResult> PostStudent(Student student)
+        // POST: api/Attendances
+        [ResponseType(typeof(Attendance))]
+        public async Task<IHttpActionResult> PostAttendance(Attendance attendance)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Students.Add(student);
+            db.Attendances.Add(attendance);
 
             try
             {
@@ -88,7 +88,7 @@ namespace G1N2WebAPI.Controllers
             }
             catch (DbUpdateException)
             {
-                if (StudentExists(student.Barcode))
+                if (AttendanceExists(attendance.Id))
                 {
                     return Conflict();
                 }
@@ -98,23 +98,23 @@ namespace G1N2WebAPI.Controllers
                 }
             }
 
-            return CreatedAtRoute("DefaultApi", new { id = student.Barcode }, student);
+            return CreatedAtRoute("DefaultApi", new { id = attendance.Id }, attendance);
         }
 
-        // DELETE: api/Students/5
-        [ResponseType(typeof(Student))]
-        public async Task<IHttpActionResult> DeleteStudent(int id)
+        // DELETE: api/Attendances/5
+        [ResponseType(typeof(Attendance))]
+        public async Task<IHttpActionResult> DeleteAttendance(int id)
         {
-            Student student = await db.Students.FindAsync(id);
-            if (student == null)
+            Attendance attendance = await db.Attendances.FindAsync(id);
+            if (attendance == null)
             {
                 return NotFound();
             }
 
-            db.Students.Remove(student);
+            db.Attendances.Remove(attendance);
             await db.SaveChangesAsync();
 
-            return Ok(student);
+            return Ok(attendance);
         }
 
         protected override void Dispose(bool disposing)
@@ -126,9 +126,9 @@ namespace G1N2WebAPI.Controllers
             base.Dispose(disposing);
         }
 
-        private bool StudentExists(int id)
+        private bool AttendanceExists(int id)
         {
-            return db.Students.Count(e => e.Barcode == id) > 0;
+            return db.Attendances.Count(e => e.Id == id) > 0;
         }
     }
 }

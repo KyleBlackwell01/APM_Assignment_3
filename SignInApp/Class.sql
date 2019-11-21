@@ -4,7 +4,5 @@
 	[Day] NVARCHAR(MAX) NOT NULL,
 	[startTime] TIME NOT NULL,
 	[endTime] TIME NOT NULL,
-	[Name] NVARCHAR(MAX) NOT NULL,
-	[Description] NVARCHAR(MAX) NOT NULL,
-	[Semester] INT NOT NULL
+	[Name] NVARCHAR(MAX) NOT NULL
 )

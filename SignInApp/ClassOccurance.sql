@@ -1,6 +1,0 @@
-﻿CREATE TABLE [dbo].[ClassOccurance]
-(
-	[Barcode] INT NOT NULL PRIMARY KEY REFERENCES Student,
-	[ClassID] INT NOT NULL FOREIGN KEY REFERENCES Class,
-	[Time] DATETIME NOT NULL 
-)

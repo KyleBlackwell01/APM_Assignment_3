@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\SignInApp\packages\Microsoft.Net.Compilers.3.3.1\build\Microsoft.Net.Compilers.props" Condition="Exists('..\SignInApp\packages\Microsoft.Net.Compilers.3.3.1\build\Microsoft.Net.Compilers.props')" />
   <Import Project="..\SignInApp\packages\EntityFramework.6.3.0\build\EntityFramework.props" Condition="Exists('..\SignInApp\packages\EntityFramework.6.3.0\build\EntityFramework.props')" />
   <Import Project="..\SignInApp\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\SignInApp\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -56,7 +57,10 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime" />
+    <Reference Include="System.Runtime.InteropServices" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Threading.Thread" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -163,45 +167,42 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\AttendancesController.cs" />
     <Compile Include="Controllers\ClassesController.cs" />
-    <Compile Include="Controllers\ClassOccurancesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ScanEventsController.cs" />
-    <Compile Include="Controllers\StudentsController.cs" />
-    <Compile Include="Controllers\TeachersController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Attendance.cs">
+      <DependentUpon>G1N2.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Class.cs">
-      <DependentUpon>G1N2_Model.tt</DependentUpon>
+      <DependentUpon>G1N2.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ClassOccurance.cs">
-      <DependentUpon>G1N2_Model.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\G1N2_Model.Context.cs">
+    <Compile Include="Models\G1N2.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>G1N2_Model.Context.tt</DependentUpon>
+      <DependentUpon>G1N2.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\G1N2_Model.cs">
+    <Compile Include="Models\G1N2.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>G1N2_Model.tt</DependentUpon>
+      <DependentUpon>G1N2.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\G1N2_Model.Designer.cs">
+    <Compile Include="Models\G1N2.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>G1N2_Model.edmx</DependentUpon>
+      <DependentUpon>G1N2.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\ScanEvent.cs">
-      <DependentUpon>G1N2_Model.tt</DependentUpon>
+      <DependentUpon>G1N2.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Student.cs">
-      <DependentUpon>G1N2_Model.tt</DependentUpon>
+      <DependentUpon>G1N2.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Teacher.cs">
-      <DependentUpon>G1N2_Model.tt</DependentUpon>
+      <DependentUpon>G1N2.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -214,15 +215,15 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Models\G1N2_Model.Context.tt">
+    <Content Include="Models\G1N2.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>G1N2_Model.edmx</DependentUpon>
-      <LastGenOutput>G1N2_Model.Context.cs</LastGenOutput>
+      <DependentUpon>G1N2.edmx</DependentUpon>
+      <LastGenOutput>G1N2.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\G1N2_Model.tt">
+    <Content Include="Models\G1N2.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>G1N2_Model.edmx</DependentUpon>
-      <LastGenOutput>G1N2_Model.cs</LastGenOutput>
+      <DependentUpon>G1N2.edmx</DependentUpon>
+      <LastGenOutput>G1N2.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -245,12 +246,12 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\CollectionModelDescription.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
-    <EntityDeploy Include="Models\G1N2_Model.edmx">
+    <EntityDeploy Include="Models\G1N2.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>G1N2_Model.Designer.cs</LastGenOutput>
+      <LastGenOutput>G1N2.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\G1N2_Model.edmx.diagram">
-      <DependentUpon>G1N2_Model.edmx</DependentUpon>
+    <Content Include="Models\G1N2.edmx.diagram">
+      <DependentUpon>G1N2.edmx</DependentUpon>
     </Content>
     <None Include="Properties\PublishProfiles\G1N2WebAPI - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
@@ -344,6 +345,7 @@
     <Error Condition="!Exists('..\SignInApp\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\SignInApp\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
     <Error Condition="!Exists('..\SignInApp\packages\EntityFramework.6.3.0\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\SignInApp\packages\EntityFramework.6.3.0\build\EntityFramework.props'))" />
     <Error Condition="!Exists('..\SignInApp\packages\EntityFramework.6.3.0\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\SignInApp\packages\EntityFramework.6.3.0\build\EntityFramework.targets'))" />
+    <Error Condition="!Exists('..\SignInApp\packages\Microsoft.Net.Compilers.3.3.1\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\SignInApp\packages\Microsoft.Net.Compilers.3.3.1\build\Microsoft.Net.Compilers.props'))" />
   </Target>
   <Import Project="..\SignInApp\packages\EntityFramework.6.3.0\build\EntityFramework.targets" Condition="Exists('..\SignInApp\packages\EntityFramework.6.3.0\build\EntityFramework.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

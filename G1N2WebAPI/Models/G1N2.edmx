@@ -5,6 +5,18 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
       <Schema Namespace="Database_Sem2Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Attendance">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Firstname" Type="nvarchar" MaxLength="50" />
+          <Property Name="Lastname" Type="nvarchar" MaxLength="50" />
+          <Property Name="StudentID" Type="int" />
+          <Property Name="Status" Type="nvarchar" MaxLength="50" />
+          <Property Name="timeSignedIn" Type="datetime" />
+          <Property Name="dateSignedIn" Type="datetime" />
+        </EntityType>
         <EntityType Name="Class">
           <Key>
             <PropertyRef Name="ClassID" />
@@ -14,16 +26,6 @@
           <Property Name="startTime" Type="time" Precision="7" Nullable="false" />
           <Property Name="endTime" Type="time" Precision="7" Nullable="false" />
           <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Semester" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="ClassOccurance">
-          <Key>
-            <PropertyRef Name="Barcode" />
-          </Key>
-          <Property Name="Barcode" Type="int" Nullable="false" />
-          <Property Name="ClassID" Type="int" Nullable="false" />
-          <Property Name="Time" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="ScanEvent">
           <Key>
@@ -46,43 +48,27 @@
           </Key>
           <Property Name="TName" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
-        <Association Name="FK__ClassOccu__Barco__102C51FF">
-          <End Role="Student" Type="Self.Student" Multiplicity="1" />
-          <End Role="ClassOccurance" Type="Self.ClassOccurance" Multiplicity="0..1" />
+        <Association Name="FK__Attendanc__Stude__2DBCB4E6">
+          <End Role="Student" Type="Self.Student" Multiplicity="0..1" />
+          <End Role="Attendance" Type="Self.Attendance" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Student">
               <PropertyRef Name="Barcode" />
             </Principal>
-            <Dependent Role="ClassOccurance">
-              <PropertyRef Name="Barcode" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__ClassOccu__Class__11207638">
-          <End Role="Class" Type="Self.Class" Multiplicity="1" />
-          <End Role="ClassOccurance" Type="Self.ClassOccurance" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Class">
-              <PropertyRef Name="ClassID" />
-            </Principal>
-            <Dependent Role="ClassOccurance">
-              <PropertyRef Name="ClassID" />
+            <Dependent Role="Attendance">
+              <PropertyRef Name="StudentID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="Database_Sem2ModelStoreContainer">
+          <EntitySet Name="Attendance" EntityType="Self.Attendance" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Class" EntityType="Self.Class" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ClassOccurance" EntityType="Self.ClassOccurance" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ScanEvent" EntityType="Self.ScanEvent" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Student" EntityType="Self.Student" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Teacher" EntityType="Self.Teacher" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__ClassOccu__Barco__102C51FF" Association="Self.FK__ClassOccu__Barco__102C51FF">
+          <AssociationSet Name="FK__Attendanc__Stude__2DBCB4E6" Association="Self.FK__Attendanc__Stude__2DBCB4E6">
             <End Role="Student" EntitySet="Student" />
-            <End Role="ClassOccurance" EntitySet="ClassOccurance" />
-          </AssociationSet>
-          <AssociationSet Name="FK__ClassOccu__Class__11207638" Association="Self.FK__ClassOccu__Class__11207638">
-            <End Role="Class" EntitySet="Class" />
-            <End Role="ClassOccurance" EntitySet="ClassOccurance" />
+            <End Role="Attendance" EntitySet="Attendance" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -90,6 +76,19 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Database_Sem2Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Attendance">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Firstname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Lastname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StudentID" Type="Int32" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="timeSignedIn" Type="DateTime" Precision="3" />
+          <Property Name="dateSignedIn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Student" Relationship="Self.FK__Attendanc__Stude__2DBCB4E6" FromRole="Attendance" ToRole="Student" />
+        </EntityType>
         <EntityType Name="Class">
           <Key>
             <PropertyRef Name="ClassID" />
@@ -99,19 +98,6 @@
           <Property Name="startTime" Type="Time" Nullable="false" Precision="7" />
           <Property Name="endTime" Type="Time" Nullable="false" Precision="7" />
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Semester" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="ClassOccurances" Relationship="Self.FK__ClassOccu__Class__11207638" FromRole="Class" ToRole="ClassOccurance" />
-        </EntityType>
-        <EntityType Name="ClassOccurance">
-          <Key>
-            <PropertyRef Name="Barcode" />
-          </Key>
-          <Property Name="Barcode" Type="Int32" Nullable="false" />
-          <Property Name="ClassID" Type="Int32" Nullable="false" />
-          <Property Name="Time" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Class" Relationship="Self.FK__ClassOccu__Class__11207638" FromRole="ClassOccurance" ToRole="Class" />
-          <NavigationProperty Name="Student" Relationship="Self.FK__ClassOccu__Barco__102C51FF" FromRole="ClassOccurance" ToRole="Student" />
         </EntityType>
         <EntityType Name="ScanEvent">
           <Key>
@@ -127,7 +113,7 @@
           <Property Name="StudentID" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Time" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="ClassOccurance" Relationship="Self.FK__ClassOccu__Barco__102C51FF" FromRole="Student" ToRole="ClassOccurance" />
+          <NavigationProperty Name="Attendances" Relationship="Self.FK__Attendanc__Stude__2DBCB4E6" FromRole="Student" ToRole="Attendance" />
         </EntityType>
         <EntityType Name="Teacher">
           <Key>
@@ -135,43 +121,27 @@
           </Key>
           <Property Name="TName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
-        <Association Name="FK__ClassOccu__Class__11207638">
-          <End Role="Class" Type="Self.Class" Multiplicity="1" />
-          <End Role="ClassOccurance" Type="Self.ClassOccurance" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Class">
-              <PropertyRef Name="ClassID" />
-            </Principal>
-            <Dependent Role="ClassOccurance">
-              <PropertyRef Name="ClassID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__ClassOccu__Barco__102C51FF">
-          <End Role="Student" Type="Self.Student" Multiplicity="1" />
-          <End Role="ClassOccurance" Type="Self.ClassOccurance" Multiplicity="0..1" />
+        <Association Name="FK__Attendanc__Stude__2DBCB4E6">
+          <End Role="Student" Type="Self.Student" Multiplicity="0..1" />
+          <End Role="Attendance" Type="Self.Attendance" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Student">
               <PropertyRef Name="Barcode" />
             </Principal>
-            <Dependent Role="ClassOccurance">
-              <PropertyRef Name="Barcode" />
+            <Dependent Role="Attendance">
+              <PropertyRef Name="StudentID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="Database_Sem2Entities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="G1N2Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Attendances" EntityType="Self.Attendance" />
           <EntitySet Name="Classes" EntityType="Self.Class" />
-          <EntitySet Name="ClassOccurances" EntityType="Self.ClassOccurance" />
           <EntitySet Name="ScanEvents" EntityType="Self.ScanEvent" />
           <EntitySet Name="Students" EntityType="Self.Student" />
           <EntitySet Name="Teachers" EntityType="Self.Teacher" />
-          <AssociationSet Name="FK__ClassOccu__Class__11207638" Association="Self.FK__ClassOccu__Class__11207638">
-            <End Role="Class" EntitySet="Classes" />
-            <End Role="ClassOccurance" EntitySet="ClassOccurances" />
-          </AssociationSet>
-          <AssociationSet Name="FK__ClassOccu__Barco__102C51FF" Association="Self.FK__ClassOccu__Barco__102C51FF">
+          <AssociationSet Name="FK__Attendanc__Stude__2DBCB4E6" Association="Self.FK__Attendanc__Stude__2DBCB4E6">
             <End Role="Student" EntitySet="Students" />
-            <End Role="ClassOccurance" EntitySet="ClassOccurances" />
+            <End Role="Attendance" EntitySet="Attendances" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -179,7 +149,20 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Database_Sem2ModelStoreContainer" CdmEntityContainer="Database_Sem2Entities">
+        <EntityContainerMapping StorageEntityContainer="Database_Sem2ModelStoreContainer" CdmEntityContainer="G1N2Entities">
+          <EntitySetMapping Name="Attendances">
+            <EntityTypeMapping TypeName="Database_Sem2Model.Attendance">
+              <MappingFragment StoreEntitySet="Attendance">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Firstname" ColumnName="Firstname" />
+                <ScalarProperty Name="Lastname" ColumnName="Lastname" />
+                <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="timeSignedIn" ColumnName="timeSignedIn" />
+                <ScalarProperty Name="dateSignedIn" ColumnName="dateSignedIn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Classes">
             <EntityTypeMapping TypeName="Database_Sem2Model.Class">
               <MappingFragment StoreEntitySet="Class">
@@ -188,17 +171,6 @@
                 <ScalarProperty Name="startTime" ColumnName="startTime" />
                 <ScalarProperty Name="endTime" ColumnName="endTime" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Semester" ColumnName="Semester" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ClassOccurances">
-            <EntityTypeMapping TypeName="Database_Sem2Model.ClassOccurance">
-              <MappingFragment StoreEntitySet="ClassOccurance">
-                <ScalarProperty Name="Barcode" ColumnName="Barcode" />
-                <ScalarProperty Name="ClassID" ColumnName="ClassID" />
-                <ScalarProperty Name="Time" ColumnName="Time" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

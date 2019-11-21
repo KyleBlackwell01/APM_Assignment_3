@@ -12,13 +12,16 @@ namespace G1N2WebAPI.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class ClassOccurance
+    public partial class Attendance
     {
-        public int Barcode { get; set; }
-        public int ClassID { get; set; }
-        public System.DateTime Time { get; set; }
+        public int Id { get; set; }
+        public string Firstname { get; set; }
+        public string Lastname { get; set; }
+        public Nullable<int> StudentID { get; set; }
+        public string Status { get; set; }
+        public Nullable<System.DateTime> timeSignedIn { get; set; }
+        public Nullable<System.DateTime> dateSignedIn { get; set; }
     
-        public virtual Class Class { get; set; }
         public virtual Student Student { get; set; }
     }
 }

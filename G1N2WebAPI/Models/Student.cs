@@ -14,11 +14,18 @@ namespace G1N2WebAPI.Models
     
     public partial class Student
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Student()
+        {
+            this.Attendances = new HashSet<Attendance>();
+        }
+    
         public int Barcode { get; set; }
         public int StudentID { get; set; }
         public string Name { get; set; }
         public System.DateTime Time { get; set; }
     
-        public virtual ClassOccurance ClassOccurance { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Attendance> Attendances { get; set; }
     }
 }

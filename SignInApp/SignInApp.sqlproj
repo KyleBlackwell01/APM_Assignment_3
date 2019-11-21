@@ -62,9 +62,12 @@
     <Build Include="ScanEvent.sql" />
     <Build Include="Student.sql" />
     <Build Include="Teacher.sql" />
-    <Build Include="ClassOccurance.sql" />
+    <Build Include="Attendance.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="SignInApp.refactorlog" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Script.PostDeployment1.sql" />
   </ItemGroup>
 </Project>

@@ -15,7 +15,7 @@ namespace G1N2WebAPI.Controllers
 {
     public class ClassesController : ApiController
     {
-        private Database_Sem2Entities db = new Database_Sem2Entities();
+        private G1N2Entities db = new G1N2Entities();
 
         // GET: api/Classes
         public IQueryable<Class> GetClasses()

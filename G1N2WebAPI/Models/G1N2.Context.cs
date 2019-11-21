@@ -13,10 +13,10 @@ namespace G1N2WebAPI.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class Database_Sem2Entities : DbContext
+    public partial class G1N2Entities : DbContext
     {
-        public Database_Sem2Entities()
-            : base("name=Database_Sem2Entities")
+        public G1N2Entities()
+            : base("name=G1N2Entities")
         {
         }
     
@@ -25,8 +25,8 @@ namespace G1N2WebAPI.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Attendance> Attendances { get; set; }
         public virtual DbSet<Class> Classes { get; set; }
-        public virtual DbSet<ClassOccurance> ClassOccurances { get; set; }
         public virtual DbSet<ScanEvent> ScanEvents { get; set; }
         public virtual DbSet<Student> Students { get; set; }
         public virtual DbSet<Teacher> Teachers { get; set; }
